@@ -1,0 +1,16 @@
+0) Quand j'éteins puis relance le serveur, le login ne fonctionne plus. à réparer !
+
+1) Modifier les tags html (s'il y en a) reçus via le formulaire, vérifier la longueur
+1.2) Changer le $ reçu via le formulaire ainsi que le backtick en code ascii si ça n'a pas encore été fait.
+
+2)  Faire la fonction suivante << addAdmin(has_provider, has_member_scope, have_light_scope) >>:
+    has_provider_scope = 1  => Le futur admin peut modifier les tables provider, credential, network. Il peut ajouter/supprimer d'autres admins
+    has_member_scope = 1    => Le futur admin peut modifier les tables member, keyword member
+    has_light_scope = 1     => (Je n'ai pas encore défini)
+
+    - Cette fonction ajoute "Ready to register admin" dans la colonne "admin_pseudo".
+    - Il ne doit pas pouvoir mettre plusieurs "Ready to register admin" dans la table.
+    - Lorsque le futur admin s'enregistre, c'est le super admin (le 1er admin) qui valide l'enregistrement en mettant "1" dans la colonne admin_validated
+    - Le super admin doit pouvoir supprimer un admin en ajoutant "1" dans la colonne "deleted"
+    - Le super admin doit pouvoir modifier le scope des admins
+
