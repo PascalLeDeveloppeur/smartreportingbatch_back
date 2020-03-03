@@ -4,7 +4,7 @@ const mysql = require('mysql')
 
 const mysqlconnection = mysql.createConnection({
   host : "localhost",
-  user : "phpmyadmin",
+  user : "root",
   password : "phpmyadmin",
   database : "smart_reporting_batch6",
   multiStatements : true
