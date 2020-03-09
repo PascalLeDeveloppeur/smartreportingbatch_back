@@ -14,7 +14,7 @@ exports.escapeSpecialChars = (text) => {
     "'": '&#039;'
   };
     
-  return text.replace(/[\\&<>'"]/g, function(char) { return map[char]; });
+  return text.replace(/[\\&<>']/g, function(char) { return map[char]; });
 }
 
 exports.escapeHtml = (unsafe) => {

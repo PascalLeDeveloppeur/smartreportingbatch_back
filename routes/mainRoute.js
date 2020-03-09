@@ -15,6 +15,9 @@ router.post('/auth/register', adminController.register);
 // Connexion de l'administrateur
 router.post('/auth/login/', adminController.login);
 
+
+
+
 /*  Récupération automatique du batch depuis les réseaux sociaux et
     répartition des données dans l'historique et la table des médias */
 router.get('/batch/mainstartforautomation', mainController.mainStartForAutomation); 

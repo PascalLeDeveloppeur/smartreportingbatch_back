@@ -20,7 +20,10 @@ exports.listNetworkAndProvider = (req, res, next) => {
     
 }
 
-exports.mainStartForAutomation = (req, res, next)=>{
+exports.mainStartForAutomation = (req, res, next) => {
+
+    console.log("\n                                                                                - - => Lancement de mainController > mainStartForAutomation\n");
+
     // Récupération des credentials pour chaque service provider
     mainDao.mainStartForAutomation(
         (callbackContent) => {
@@ -48,7 +51,14 @@ exports.mainStartForAutomation = (req, res, next)=>{
                     console.log("facebookRequest :", facebookRequest);   
 
                     // Introduction de données dans le log avant la requête à l'API du réseau social
+                    console.log("\n- - =>  Introduction de données dans le log avant la requête à l'API du réseau social\n");
+
+                    console.log("\n                                                                                - - => Lancement de mainController > step1BeforeRequestToApi\n");
+
                     mainDao.step1BeforeRequestToApi(facebookRequest, serviceProviderId, networkId, (callbackBeforeRequestToApi) => {
+
+                        console.log("\n- - =>  Le log a bien été modifié.\n");
+
                         let batchId = callbackBeforeRequestToApi[0][0].batch_id;
                         console.log("--------------------------");
                         console.log("CallbackBeforeRequestToApi");
@@ -65,6 +75,11 @@ exports.mainStartForAutomation = (req, res, next)=>{
                             console.log("--------------------------");
                             console.log("Request Duration :", requestDuration);
 
+
+                            console.log("\n                                                                                - - => réponse du réseau social :\n", callbackRequestToApi, "\n-----------------------------------------------------------------");
+
+
+
                             let requestStatus, jsonFromNetwork;
                             if (callbackRequestToApi){
                                 requestStatus = 1;
@@ -79,11 +94,19 @@ exports.mainStartForAutomation = (req, res, next)=>{
                             jsonFromNetwork = secureFunctions.escapeSpecialChars(jsonFromNetwork);
                             jsonFromNetwork = jsonFromNetwork.replace(/[\n\r]|\s{2,}/g, ''); // supprime les sauts de lignes et les grands espaces.
 
+
+                            console.log("-----------------------------------------------------------------\nJson reçcu du réseau social : \n", jsonFromNetwork  , "\n-----------------------------------------------------------------");
+
+                            console.log("\n                                                                                - - => Lancement de mainController > step2SaveOfBatch\n");
+                            
                             mainDao.step2SaveOfBatch(batchId, requestDuration, requestStatus, jsonFromNetwork, serviceProviderId, networkId, (callbackSaveBatch) => {
                                 console.log(callbackSaveBatch);
                                 let logStatus = callbackSaveBatch[0][0].status;
                                 if (logStatus = 11){
                                     // << step3SaveOfMediaHistory >> déclenche automatiquement la procédure << sp_step4__save_of_media  >> sans passer par Node si tout est OK
+
+                                    console.log("\n                                                                                - - => Lancement de mainController > step3SaveOfMediaHistory\n");
+                                    
                                     mainDao.step3SaveOfMediaHistory(serviceProviderId, networkId, batchId, (callbackSaveOfMediaHistory) => {
                                         console.log("callbackSaveOfMediaHistory : ", callbackSaveOfMediaHistory)
                                         if (requestStatus < 0){

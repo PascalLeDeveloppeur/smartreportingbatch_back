@@ -1,0 +1,5 @@
+Pour autoriser l'utilisation du compte gmail pour l'envoie d'email,
+il faut mettre le paramettre << Autoriser les applications moins sécurisées >> sur << Activé >> à cet adresse :
+https://myaccount.google.com/lesssecureapps
+
+ATTENTION, il faut d'abord se connecter au compte gmail.
