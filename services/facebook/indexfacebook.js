@@ -21,6 +21,6 @@ exports.facebookBatchInAutomation = (facebookRequest, callbackRequestToApi)=>{
     });
 }
 
-exports.facebookRequest = `https://graph.facebook.com/v6.0/:pageid/posts?access_token=:pagetoken`;
+// exports.facebookRequest = `https://graph.facebook.com/v6.0/:pageid/posts?access_token=:pagetoken`;
 
-
+exports.facebookRequest = `https://graph.facebook.com/v6.0/:pageid/posts?fields=attachments,message,likes,sharedposts&access_token=:pagetoken`;

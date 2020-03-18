@@ -6,6 +6,7 @@ const adminController = require('../controllers/admincontroller');
 
 
 
+
 /* GET home page. */
 router.get('/', mainController.index);
 
@@ -20,7 +21,7 @@ router.post('/auth/login/', adminController.login);
 
 /*  Récupération automatique du batch depuis les réseaux sociaux et
     répartition des données dans l'historique et la table des médias */
-router.get('/batch/mainstartforautomation', mainController.mainStartForAutomation); 
+router.get('/batch/mainstartforautomation/:nbrPosts', mainController.mainStartForAutomation); 
 
 // Mise en relation des médias et des membres automatiquement
 router.get('/batch/linkmediaandmember', mainController.linkMediaAndMember);

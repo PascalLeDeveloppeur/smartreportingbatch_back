@@ -22,7 +22,11 @@ exports.listNetworkAndProvider = (req, res, next) => {
 
 exports.mainStartForAutomation = (req, res, next) => {
 
+    let nbrPosts = req.params.nbrPosts; // nombre de posts à récupérer par réseau social pour chaque provider
+
+    console.log("\n\nLe nombre de posts demandé via l'url est : ", nbrPosts,"\n\n");
     console.log("\n                                                                                - - => Lancement de mainController > mainStartForAutomation\n");
+
 
     // Récupération des credentials pour chaque service provider
     mainDao.mainStartForAutomation(
@@ -39,17 +43,39 @@ exports.mainStartForAutomation = (req, res, next) => {
                 console.log("Network id :", networkId);
                 console.log("Provider id :", serviceProviderId);
                 console.log("Token :", serviceProviderToken);
-                
+
+
+
+                // ////////////////////////////////////////////
+                // ////////////  FACEBOOK /////////////////////
                 // Si les crédentials sont pour le réseau Facebook
+                // ////////////////////////////////////////////
+
+
+                
+                
                 if (network == 'facebook'){
                     serviceProviderPageId = credential.service_provider_page_id;
                     let facebookRequest = facebook.facebookRequest;
                     facebookRequest = facebookRequest.replace(':pageid', serviceProviderPageId);
                     facebookRequest = facebookRequest.replace(':pagetoken', serviceProviderToken);
-
+                    
                     console.log("Page id :", serviceProviderPageId);
                     console.log("facebookRequest :", facebookRequest);   
+                    
+                    
+                    // Détermination du nombre de requêtes qui permettent de récupérer le nombre de posts souhaité.
+                    // Chaque requête récupère 25 posts
+                    let batchLoop = Math.ceil(nbrPosts / 25);
 
+
+
+
+
+
+                    for (let i = 0; i < batchLoop; i++){
+
+                    }
                     // Introduction de données dans le log avant la requête à l'API du réseau social
                     console.log("\n- - =>  Introduction de données dans le log avant la requête à l'API du réseau social\n");
 
@@ -68,6 +94,8 @@ exports.mainStartForAutomation = (req, res, next) => {
                         console.log(callbackBeforeRequestToApi);
                         
                         let dateTimeStartRequestToApi = Date.now();
+
+
                         
                         // Requête à l'API du réseau social
                         facebook.facebookBatchInAutomation(facebookRequest, (callbackRequestToApi) => {
@@ -99,6 +127,35 @@ exports.mainStartForAutomation = (req, res, next) => {
 
                             console.log("\n                                                                                - - => Lancement de mainController > step2SaveOfBatch\n");
                             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             mainDao.step2SaveOfBatch(batchId, requestDuration, requestStatus, jsonFromNetwork, serviceProviderId, networkId, (callbackSaveBatch) => {
                                 console.log(callbackSaveBatch);
                                 let logStatus = callbackSaveBatch[0][0].status;
@@ -115,18 +172,27 @@ exports.mainStartForAutomation = (req, res, next) => {
                                         else {
                                             res.status(200).json({ message : "'Batch' and 'media distribution' process completed." });
                                         }
-                                       
+                                    
                                     });
                                 }
 
                             });
 
                         })
-                    } );
+                    }); // *****************************************************************
+
+
+                    
+
                     
                 }
-                
+
+
+
+                // ////////////////////////////////////////////
+                // ////////////  RESEAU SOCIAL /////////////////////
                 // Emplacement pour un autre réseau social
+                // ////////////////////////////////////////////
                 
                 
             }
